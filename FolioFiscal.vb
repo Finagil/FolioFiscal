@@ -34,11 +34,11 @@ Module FolioFiscal
         Dim Porc As Double = 0
         Dim fecha As Date = Today
         fecha = fecha.AddHours(-172)
-        Dim Folios As New CFDIdsTableAdapters.FacturaTableAdapter
+        Dim Folios As New FinagilDSTableAdapters.CFDI_EncabezadoTableAdapter
         Dim FoliosFin As New FinagilDSTableAdapters.FoliosFinagilTableAdapter
         Dim Historia As New FinagilDSTableAdapters.HistoriaTableAdapter
         Dim Hisgin As New FinagilDSTableAdapters.HisginTableAdapter
-        Dim T As New CFDIds.FacturaDataTable
+        Dim T As New FinagilDS.CFDI_EncabezadoDataTable
         Dim TT As New FinagilDS.FoliosFinagilDataTable
         Dim total As Integer = 0
 
@@ -48,16 +48,16 @@ Module FolioFiscal
         total = T.Rows.Count
 
         'pone el folios fiscal en la historia
-        For Each r As CFDIds.FacturaRow In T.Rows
-            If r.Factura = "10A150034" Then
-                r.Factura = "10A150034"
-            End If
+        For Each r As FinagilDS.CFDI_EncabezadoRow In T.Rows
+            'If r.Factura = "10A150034" Then
+            '    r.Factura = "10A150034"
+            'End If
             c += 1
             Porc = (c / total) * 100
-            Serie = r.Serie
-            If Mid(r.Serie, 1, 2) = "AA" Then Serie = "A"
-            If Mid(r.Serie, 1, 1) = "C" Then Serie = "C"
-            Historia.FolioFiscal(r.FolioFiscal, Serie, r.Referencia)
+            Serie = r._27_Serie_Comprobante
+            If Mid(r._27_Serie_Comprobante, 1, 2) = "AA" Then Serie = "A"
+            'If Mid(r._27_Serie_Comprobante, 1, 1) = "C" Then Serie = "C"
+            Historia.FolioFiscal(r.Guid, Serie, r._1_Folio)
             Console.Clear()
             Console.WriteLine("Proceso 1: " & MonthName(fecha.Month) & " " & fecha.Year & " " & Porc.ToString("n2") & "%")
         Next
