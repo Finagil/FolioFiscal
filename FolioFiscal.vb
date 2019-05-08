@@ -137,27 +137,34 @@ Module FolioFiscal
 
             Console.WriteLine("Iniciando AVIO")
             Dim c As Integer = 0
-            Dim Concepto As String = ""
-            Dim Anexo As String = ""
+            Dim GUID As String = ""
+            Dim Folio As String = ""
             Dim Porc As Double = 0
             Dim fecha As Date = Today
 
             fecha = fecha.AddHours(-172)
-            Dim Folios As New CFDIdsTableAdapters.FacturaTableAdapter
+            Dim Folios As New FinagilDSTableAdapters.FacturaSinFolioTableAdapter
             Dim DetalleFinagil As New FinagilDSTableAdapters.DetalleFINAGILTableAdapter
-            Dim T As New CFDIds.FacturaDataTable
+            Dim T As New FinagilDS.FacturaSinFolioDataTable
             Dim total As Integer = 0
-            Dim Factura As String
             Dim Serie As String
-            Folios.FillByAV(T, fecha.Month, fecha.Year)
+            Folios.Fill(T, fecha.ToString("yyyyMM01"))
             total = T.Rows.Count
-            For Each r As CFDIds.FacturaRow In T.Rows
+            For Each r As FinagilDS.FacturaSinFolioRow In T.Rows
                 c += 1
                 Porc = (c / total) * 100
-                Serie = r.Serie
-                If r.Serie = "AA" Then Serie = "A"
-                Factura = Trim(Serie) & Trim(r.Referencia)
-                DetalleFinagil.UpdateFolio(r.FolioFiscal, Factura)
+                Serie = ""
+                Folio = ""
+                For x As Integer = 1 To r.Factura.Trim.Length
+                    If IsNumeric(Mid(r.Factura, x, 1)) Then
+                        Folio += Mid(r.Factura, x, 1)
+                    Else
+                        Serie += Mid(r.Factura, x, 1)
+                    End If
+                Next
+                If Folio = "" Then Folio = "0"
+                GUID = Folios.SacaGUID(Folio, Serie)
+                DetalleFinagil.UpdateFolio(GUID, r.Factura.Trim)
                 Console.Clear()
                 Console.WriteLine("Proceso 3 Avio: " & MonthName(fecha.Month) & " " & fecha.Year & " " & Porc.ToString("n2") & "%")
 
