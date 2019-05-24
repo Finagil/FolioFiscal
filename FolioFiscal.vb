@@ -2,7 +2,7 @@
 Module FolioFiscal
     'Dim ErrorControl As New EventLog
     Sub Main()
-        LlenaPolizas() ' con archivos de polizas
+        'LlenaPolizas() ' con archivos de polizas
         FoliosFactor100()
         EnviaFolioFiscal() 'en finagil
         FoliosAvios() ' en detalle finagil
