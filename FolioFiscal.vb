@@ -1,5 +1,6 @@
 ﻿Imports System.Net.Mail
 Module FolioFiscal
+    Dim Horas As Integer = -72
     'Dim ErrorControl As New EventLog
     Sub Main()
         'LlenaPolizas() ' con archivos de polizas
@@ -35,7 +36,7 @@ Module FolioFiscal
         Dim Serie As String = ""
         Dim Porc As Double = 0
         Dim fecha As Date = Today
-        fecha = fecha.AddHours(-172)
+        fecha = fecha.AddHours(Horas)
         Dim Folios As New FinagilDSTableAdapters.CFDI_EncabezadoTableAdapter
         Dim FoliosFin As New FinagilDSTableAdapters.FoliosFinagilTableAdapter
         Dim Historia As New FinagilDSTableAdapters.HistoriaTableAdapter
@@ -144,7 +145,7 @@ Module FolioFiscal
             Dim Porc As Double = 0
             Dim fecha As Date = Today
 
-            fecha = fecha.AddHours(-172)
+            fecha = fecha.AddHours(Horas)
             Dim Folios As New FinagilDSTableAdapters.FacturaSinFolioTableAdapter
             Dim DetalleFinagil As New FinagilDSTableAdapters.DetalleFINAGILTableAdapter
             Dim T As New FinagilDS.FacturaSinFolioDataTable
@@ -183,7 +184,7 @@ Module FolioFiscal
         Dim Serie As String = ""
         Dim Porc As Double = 0
         Dim fecha As Date = Today
-        fecha = fecha.AddHours(-172)
+        fecha = fecha.AddHours(Horas)
         Dim Folios As New CFDIdsTableAdapters.FacturaTableAdapter
         Dim Factor100 As New Factor100DSTableAdapters.FACT_EMITIDASTableAdapter
         Dim T As New CFDIds.FacturaDataTable
