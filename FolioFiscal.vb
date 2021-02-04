@@ -1,8 +1,13 @@
 ﻿Imports System.Net.Mail
 Module FolioFiscal
     Dim Horas As Integer = -72
+    Dim Arg() As String
     'Dim ErrorControl As New EventLog
     Sub Main()
+        Arg = Environment.GetCommandLineArgs()
+        If Arg.Length > 1 Then
+            Horas = Arg(1)
+        End If
         'LlenaPolizas() ' con archivos de polizas
         FoliosFactor100()
         EnviaFolioFiscal() 'en finagil
